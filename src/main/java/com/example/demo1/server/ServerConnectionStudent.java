@@ -9,15 +9,11 @@ import java.net.URL;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.OutputStream;
-import java.io.InputStream;
-
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-public class ServerConnection {
+public class ServerConnectionStudent {
 
     public static List<Student> getStudentsData() {
         List<Student> students = new ArrayList<>();

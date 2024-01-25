@@ -1,15 +1,16 @@
 package com.example.demo1.window;
 
+import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import com.example.demo1.enity.Student;
-import com.example.demo1.server.ServerConnection;
+import com.example.demo1.server.ServerConnectionStudent;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
@@ -53,39 +54,57 @@ public class AdminStudent {
 
     @FXML
     private TextField data;
-
     @FXML
     private Button dell_button;
-
-    @FXML
-    private Button edit_button;
-
     @FXML
     private TextField fullName_students;
-
     @FXML
     private TextField number_group;
-
     @FXML
     private TextField phone_number;
 
     @FXML
-    void setBack_button(MouseEvent event) {
-
-    }
-
-    @FXML
     void initialize() {
-
         displayingDataInATable();
+        dell_button.setOnAction(event -> {
+            Student selectedStudent = table.getSelectionModel().getSelectedItem();
+            if (selectedStudent != null) {
+                int studentId = selectedStudent.getId(); // Получение ID выбранного студента
+                deleteStudentFromServer(studentId); // Вызов метода для удаления студента с выбранным ID
+            }
+            displayingDataInATable();
+            clearTextField();
+        });
+        // Установка слушателя событий для выбора строки в таблице
+        table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                // Получение данных из ново выбранной строки
+                String fullName = newSelection.getFullName();
+                String phoneNumber = newSelection.getContactInformation();
+                String date = newSelection.getDateOfBirth();
+                int numberGroup = newSelection.getGroupId();
+                String sportType = newSelection.getSportType();
+
+                // Отображение данных в соответствующих текстовых полях или других элементах интерфейса
+                fullName_students.setText(fullName);
+                phone_number.setText(phoneNumber);
+                data.setText(date);
+                number_group.setText(String.valueOf(numberGroup));
+                Sport.setText(sportType);
+
+            }
+        });
+        applications.setOnAction(event -> {});
     }
 
 
-    public void displayingDataInATable(){
+    public void displayingDataInATable() {
+        List<Student> students = ServerConnectionStudent.getStudentsData();
 
-        List<Student> students = ServerConnection.getStudentsData();
+        // Создание ObservableList из студентов
+        ObservableList<Student> data = FXCollections.observableArrayList(students);
 
-
+        // Привязка полей TableView к свойствам объекта Student
         fullName_table.setCellValueFactory(new PropertyValueFactory<>("fullName"));
         phone_number_table.setCellValueFactory(new PropertyValueFactory<>("contactInformation"));
         data_table.setCellValueFactory(new PropertyValueFactory<>("dateOfBirth"));
@@ -93,10 +112,39 @@ public class AdminStudent {
         number_group_table.setCellValueFactory(new PropertyValueFactory<>("groupId"));
         type_sport.setCellValueFactory(new PropertyValueFactory<>("sportType"));
 
-        // Создание ObservableList из списка студентов
-        ObservableList<Student> data = FXCollections.observableArrayList(students);
+        // Фильтрация данных для отображения только записей, где login не равен null
+        FilteredList<Student> filteredData = new FilteredList<>(data, student -> student.getLogin() != "null");
 
-        // Установка данных в TableView
-        table.setItems(data);
+        // Применение фильтра к TableView
+        table.setItems(filteredData);
+    }
+
+    private void deleteStudentFromServer(int studentId) {
+        try {
+            String urlString = "http://localhost:8081/martial-arts-school/students/" + studentId;
+            URL url = new URL(urlString);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("DELETE");
+
+            int responseCode = connection.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                System.out.println("Успешно удалено");
+            } else {
+                // Обработка ошибки
+            }
+
+            connection.disconnect();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void clearTextField() {
+        fullName_students.clear();
+        phone_number.clear();
+        data.clear();
+        number_group.clear();
+        Sport.clear();
+
     }
 }
