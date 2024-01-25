@@ -89,4 +89,24 @@ public class ServerConnectionStudent {
 
         return students;
     }
+
+    public static void deleteStudentFromServer(int studentId) {
+        try {
+            String urlString = "http://localhost:8081/martial-arts-school/students/" + studentId;
+            URL url = new URL(urlString);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("DELETE");
+
+            int responseCode = connection.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                System.out.println("Успешно удалено");
+            } else {
+                // Обработка ошибки
+            }
+
+            connection.disconnect();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

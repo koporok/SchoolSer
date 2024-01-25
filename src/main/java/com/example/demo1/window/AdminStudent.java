@@ -38,30 +38,20 @@ public class AdminStudent {
 
 
     @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
-
-    @FXML
-    private TextField Sport;
-
-    @FXML
     private Button applications;
-
     @FXML
-    private Button back_button;
+    private Button dell_button;
 
     @FXML
     private TextField data;
-    @FXML
-    private Button dell_button;
     @FXML
     private TextField fullName_students;
     @FXML
     private TextField number_group;
     @FXML
     private TextField phone_number;
+    @FXML
+    private TextField Sport;
 
     @FXML
     void initialize() {
@@ -70,11 +60,12 @@ public class AdminStudent {
             Student selectedStudent = table.getSelectionModel().getSelectedItem();
             if (selectedStudent != null) {
                 int studentId = selectedStudent.getId(); // Получение ID выбранного студента
-                deleteStudentFromServer(studentId); // Вызов метода для удаления студента с выбранным ID
+                ServerConnectionStudent.deleteStudentFromServer(studentId); // Вызов метода для удаления студента с выбранным ID
             }
             displayingDataInATable();
             clearTextField();
         });
+
         // Установка слушателя событий для выбора строки в таблице
         table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
@@ -97,7 +88,6 @@ public class AdminStudent {
         applications.setOnAction(event -> {});
     }
 
-
     public void displayingDataInATable() {
         List<Student> students = ServerConnectionStudent.getStudentsData();
 
@@ -118,27 +108,6 @@ public class AdminStudent {
         // Применение фильтра к TableView
         table.setItems(filteredData);
     }
-
-    private void deleteStudentFromServer(int studentId) {
-        try {
-            String urlString = "http://localhost:8081/martial-arts-school/students/" + studentId;
-            URL url = new URL(urlString);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("DELETE");
-
-            int responseCode = connection.getResponseCode();
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                System.out.println("Успешно удалено");
-            } else {
-                // Обработка ошибки
-            }
-
-            connection.disconnect();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     private void clearTextField() {
         fullName_students.clear();
         phone_number.clear();
