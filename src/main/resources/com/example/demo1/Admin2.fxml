@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="401.0" prefWidth="729.0" style="-fx-background-color: #BCBCBC;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo1.Application">
+   <children>
+      <ImageView fitHeight="54.0" fitWidth="40.0" layoutX="621.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@image/icons8-часы-50 (1).png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="400.0" fitWidth="280.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@image/_ (2).jpeg" />
+         </image>
+      </ImageView>
+      <TextField fx:id="TrainerID" layoutX="59.0" layoutY="187.0" promptText="ФИО Тренера" style="-fx-background-color: #fafafa;">
+         <font>
+            <Font name="Charter Bold" size="13.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="class_time" layoutX="34.0" layoutY="272.0" prefHeight="26.0" prefWidth="215.0" promptText="Время начала и конца занятий" style="-fx-background-color: #fafafa;">
+         <font>
+            <Font name="Charter Bold" size="13.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="Group_number" layoutX="59.0" layoutY="77.0" promptText="Номер группы" style="-fx-background-color: #fafafa;">
+         <font>
+            <Font name="Charter Bold" size="13.0" />
+         </font>
+      </TextField>
+      <DatePicker fx:id="class_date" layoutX="59.0" layoutY="141.0" prefHeight="26.0" prefWidth="163.0" promptText="Дата занятия " />
+      <TableView layoutX="288.0" layoutY="77.0" prefHeight="272.0" prefWidth="416.0" style="-fx-background-color: #DBDBDB;">
+        <columns>
+          <TableColumn fx:id="Group_number_table" prefWidth="74.0" style="-fx-background-color: #BC2F36;" text="№  группы" />
+            <TableColumn fx:id="class_date_table" prefWidth="74.0" style="-fx-background-color: #BC2F36;" text="Дата занятия " />
+            <TableColumn fx:id="TrainerID_table" prefWidth="71.04306030273438" style="-fx-background-color: #BC2F36;" text="Тренер" />
+            <TableColumn fx:id="class_time_table" prefWidth="116.07498168945312" style="-fx-background-color: #BC2F36;" text="Время занятий" />
+            <TableColumn fx:id="age_table" prefWidth="79.92498779296875" style="-fx-background-color: #BC2F36;" text="Возраст" />
+        </columns>
+      </TableView>
+      <Button fx:id="dell_button" layoutX="186.0" layoutY="312.0" mnemonicParsing="false" style="-fx-background-color: #BC2F36;" text="Удалить " textFill="WHITE">
+         <font>
+            <Font name="Charter Bold" size="13.0" />
+         </font>
+      </Button>
+      <Button fx:id="create_button" layoutX="25.0" layoutY="312.0" mnemonicParsing="false" style="-fx-background-color: #BC2F36;" text="Редактировать " textFill="WHITE">
+         <font>
+            <Font name="Charter Bold" size="13.0" />
+         </font>
+      </Button>
+      <Button layoutX="52.0" layoutY="360.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="175.0" style="-fx-background-color: #BC2F36;" text="Просмотр расписания" textFill="WHITE">
+         <font>
+            <Font name="Charter Bold" size="13.0" />
+         </font>
+      </Button>
+      <Button fx:id="back_button" layoutX="19.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#setBack_button" style="-fx-background-color: #BC2F36;" text="&lt;" textFill="WHITE">
+         <font>
+            <Font name="Charter Bold" size="13.0" />
+         </font>
+      </Button>
+      <MenuButton fx:id="age" layoutX="58.0" layoutY="229.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="163.0" style="-fx-background-color: #fafafa;" text="Возраст">
+        <items>
+          <MenuItem mnemonicParsing="false" text="6-10" />
+          <MenuItem mnemonicParsing="false" text="11-14" />
+            <MenuItem mnemonicParsing="false" text="15-17" />
+        </items>
+         <font>
+            <Font name="Charter Bold" size="13.0" />
+         </font>
+      </MenuButton>
+   </children>
+</AnchorPane>
