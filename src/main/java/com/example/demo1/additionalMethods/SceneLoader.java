@@ -1,6 +1,7 @@
 package com.example.demo1.additionalMethods;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
@@ -8,14 +9,16 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class SceneLoader {
-    public static void loadNewScene(String fxml, Button sene) throws IOException{
-        sene.getScene().getWindow().hide();
-        FXMLLoader loader = new FXMLLoader(SceneLoader.class.getResource(fxml));
+    public static void loadNewScene(String fxml, Scene currentScene) {
+        try {
+            Parent root = FXMLLoader.load(SceneLoader.class.getResource(fxml));
 
-        Scene scene = new Scene(loader.load());
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        stage.show();
-
+            Stage stage = (Stage) currentScene.getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
 }

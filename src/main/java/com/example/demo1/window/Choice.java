@@ -29,11 +29,7 @@ public class Choice {
     @FXML
     void initialize() {
         students_button.setOnAction(event -> {
-            try {
-                SceneLoader.loadNewScene("AdminStudent.fxml", students_button);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+
         });
     }
 

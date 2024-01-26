@@ -1,10 +1,8 @@
 package com.example.demo1.window;
 
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import com.example.demo1.enity.Student;
 import com.example.demo1.server.ServerConnectionStudent;
@@ -17,7 +15,13 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
+
+
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
 
 public class AdminStudent {
 
@@ -54,7 +58,8 @@ public class AdminStudent {
     private TextField Sport;
 
     @FXML
-    void initialize() {
+    void initialize() throws IOException {
+        
         displayingDataInATable();
         dell_button.setOnAction(event -> {
             Student selectedStudent = table.getSelectionModel().getSelectedItem();
@@ -85,7 +90,8 @@ public class AdminStudent {
 
             }
         });
-        applications.setOnAction(event -> {});
+            applications.getScene().getWindow().hide();
+            openWindow("AdminApplication.fxml");
     }
 
     public void displayingDataInATable() {
@@ -115,5 +121,14 @@ public class AdminStudent {
         number_group.clear();
         Sport.clear();
 
+    }
+   private void openWindow(String fxmlFile) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource(fxmlFile));
+        Parent root = loader.load();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.show();
+        
     }
 }

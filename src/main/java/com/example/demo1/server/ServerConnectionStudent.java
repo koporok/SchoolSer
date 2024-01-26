@@ -3,7 +3,9 @@ package com.example.demo1.server;
 import com.example.demo1.enity.Student;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import org.json.JSONArray;
@@ -106,6 +108,35 @@ public class ServerConnectionStudent {
 
             connection.disconnect();
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void updateStudentOnServer(Student student) {
+        try {
+
+            URL url = new URL("http://localhost:8081/martial-arts-school/students/" + student.getId());
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setDoOutput(true);
+
+            // Преобразование объекта Student в формат JSON
+            String jsonData = "{\"id\":" + student.getId() + ", \"fullName\":\"" + student.getFullName() + "\", \"dateOfBirth\":\"" + student.getDateOfBirth() + "\", \"contactInformation\":\"" + student.getContactInformation() + "\", \"groupId\":" + student.getGroupId() + ", \"sportType\":\"" + student.getSportType() + "\", \"login\":\"" + student.getLogin() + "\"}";
+
+            // Отправка данных на сервер
+            try (OutputStream os = connection.getOutputStream()) {
+                byte[] input = jsonData.getBytes("utf-8");
+                os.write(input, 0, input.length);
+            }
+
+            int responseCode = connection.getResponseCode();
+            if (responseCode == 200) {
+                System.out.println("Данные успешно обновлены");
+            } else {
+                System.out.println("Ошибка при обновлении данных: " + connection.getResponseMessage());
+            }
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
